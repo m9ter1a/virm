@@ -4,7 +4,7 @@
 // Raw responses go to test/fixtures/rss/, the summary to spike/rss-results.json.
 import { mkdir, writeFile } from "node:fs/promises";
 
-const UA = "virm/0.0.0 (personal Reddit keyword tracker; +https://www.npmjs.com/package/virm)";
+const UA = "virm/0.0.0 (personal Reddit keyword tracker; +https://github.com/m9ter1a/virm)";
 const FIXTURES = new URL("../test/fixtures/rss/", import.meta.url);
 const RESULTS = new URL("./rss-results.json", import.meta.url);
 

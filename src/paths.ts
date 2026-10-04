@@ -1,5 +1,5 @@
 // Where virm keeps its files: the user's data directory, not the current
-// folder, so `npx virm start` works from anywhere. VIRM_HOME overrides it.
+// folder, so `virm start` works from anywhere. VIRM_HOME overrides it.
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { parseEnv } from "node:util";

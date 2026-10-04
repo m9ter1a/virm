@@ -5,8 +5,9 @@
 virm searches Reddit for your topics, and a decision model sorts every post it finds into **Urgent**, **Worth a look**, **FYI** or **Noise**. Everything lands in an inbox in your browser. Only Urgent interrupts you, with a desktop notification or a message in Slack, Discord, email or any webhook. Noise never does. You always reply on Reddit yourself.
 
 ```bash
-npx virm init
-npx virm start
+npm install -g @m9ter1a/virm
+virm init
+virm start
 ```
 
 ![The virm inbox: a list of posts on the left, the selected post and why it was sorted that way on the right](docs/inbox.jpg)
@@ -27,16 +28,22 @@ It runs on your computer. The only account it needs is a free API key from [Liqu
 You need [Node.js](https://nodejs.org) 22.13 or newer.
 
 ```bash
-npx virm init
+npm install -g @m9ter1a/virm
+```
+
+This gives you the `virm` command. To try it without installing, put `npx @m9ter1a/virm` wherever this README says `virm`.
+
+```bash
+virm init
 ```
 
 `init` asks for your Liquid key (input hidden), checks it with one real call, and saves it. To get a key: sign up at [console.liquid.ai](https://console.liquid.ai), open **API keys**, create one. Then it helps you write your first tracker.
 
 ```bash
-npx virm start
+virm start
 ```
 
-This starts collecting and opens the inbox at `http://127.0.0.1:4545`. Leave it running. `npx virm doctor` checks everything if something looks off.
+This starts collecting and opens the inbox at `http://127.0.0.1:4545`. Leave it running. `virm doctor` checks everything if something looks off.
 
 ## Trackers
 
@@ -50,7 +57,7 @@ A tracker is one thing you want to hear about. Pick a goal, and the meaning of t
 | **Competitors and alternatives** | Someone is looking for a tool like yours right now |
 | **Custom** | Whatever you write |
 
-Add and edit trackers on the **Trackers** page of the inbox. They live in `trackers.json` in virm's data folder (`npx virm paths` shows where), which you can also edit by hand; virm picks up changes within a minute.
+Add and edit trackers on the **Trackers** page of the inbox. They live in `trackers.json` in virm's data folder (`virm paths` shows where), which you can also edit by hand; virm picks up changes within a minute.
 
 ```json
 {
@@ -112,15 +119,15 @@ Secrets go in `.env` in the data folder. Which groups each channel gets, and whe
 }
 ```
 
-The daily digest lists unanswered Urgent posts, counts per group and tracker, and model and feed health. Check every channel with `npx virm doctor --notify`.
+The daily digest lists unanswered Urgent posts, counts per group and tracker, and model and feed health. Check every channel with `virm doctor --notify`.
 
 ## Keep it running
 
 virm works only while your computer is on and `virm start` is running. To start it with your computer:
 
-- **Windows**: `schtasks /create /tn virm /tr "npx virm start --no-open" /sc onlogon`
-- **macOS**: a launchd agent in `~/Library/LaunchAgents/` running `npx virm start --no-open` with `RunAtLoad`.
-- **Linux**: a systemd user unit with `ExecStart=npx virm start --no-open`, then `systemctl --user enable --now virm`.
+- **Windows**: `schtasks /create /tn virm /tr "virm start --no-open" /sc onlogon`
+- **macOS**: a launchd agent in `~/Library/LaunchAgents/` running `virm start --no-open` with `RunAtLoad`.
+- **Linux**: a systemd user unit with `ExecStart=virm start --no-open` (the full path from `which virm`), then `systemctl --user enable --now virm`.
 
 On a server, the inbox still listens on 127.0.0.1 only: reach it through an SSH tunnel, and use Slack, Discord or email instead of desktop notifications.
 

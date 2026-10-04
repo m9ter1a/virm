@@ -26,7 +26,7 @@ const num = (v: string | null) => (v == null || v === "" ? null : Number(v));
 
 export function createRssSource(opts: { fetch?: typeof fetch; timeoutMs?: number } = {}): Source {
   const doFetch = opts.fetch ?? globalThis.fetch;
-  const userAgent = `virm/${VERSION} (personal Reddit tracker; +https://www.npmjs.com/package/virm)`;
+  const userAgent = `virm/${VERSION} (personal Reddit tracker; +https://github.com/m9ter1a/virm)`;
   return {
     id: "rss",
     async fetchFeed(url) {

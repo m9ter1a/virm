@@ -4,7 +4,7 @@
 // Same pacing as rss.mjs: one request per calendar minute.
 import { writeFile } from "node:fs/promises";
 
-const UA = "virm/0.0.0 (personal Reddit keyword tracker; +https://www.npmjs.com/package/virm)";
+const UA = "virm/0.0.0 (personal Reddit keyword tracker; +https://github.com/m9ter1a/virm)";
 const RESULTS = new URL("./rss-or-limit-results.json", import.meta.url);
 const SENTINEL = "kubernetes";
 const PHRASES = [

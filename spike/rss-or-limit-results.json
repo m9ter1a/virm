@@ -1,0 +1,26 @@
+[
+  {
+    "label": "length-512",
+    "length": 512,
+    "terms": 26,
+    "status": 200,
+    "entries": 100,
+    "sentinelHits": 14
+  },
+  {
+    "label": "length-513",
+    "length": 513,
+    "terms": 26,
+    "status": 200,
+    "entries": 0,
+    "sentinelHits": 0
+  },
+  {
+    "label": "terms-40",
+    "length": 346,
+    "terms": 40,
+    "status": 200,
+    "entries": 100,
+    "sentinelHits": 0
+  }
+]

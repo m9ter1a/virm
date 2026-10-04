@@ -1,0 +1,381 @@
+[
+  {
+    "name": "search-2",
+    "attempt": 1,
+    "url": "https://www.reddit.com/search.rss?q=lockfile%20OR%20%22works%20on%20my%20machine%22&sort=new&limit=100",
+    "sentAt": "2026-10-03T20:31:01.514Z",
+    "ms": 1924,
+    "status": 200,
+    "headers": {
+      "cache-control": "private, max-age=3600",
+      "content-type": "application/atom+xml; charset=UTF-8",
+      "date": "Sat, 03 Oct 2026 20:31:03 GMT",
+      "x-ratelimit-remaining": "0.0",
+      "x-ratelimit-reset": "57",
+      "x-ratelimit-used": "1"
+    },
+    "bytes": 499079,
+    "entries": 97,
+    "kinds": {
+      "t3_": 97
+    },
+    "ageHours": {
+      "newest": 0.29,
+      "median": 235.16,
+      "oldest": 468.33
+    },
+    "emptyBodies": 0,
+    "subs": [
+      [
+        "SecOpsDaily",
+        5
+      ],
+      [
+        "codex",
+        3
+      ],
+      [
+        "ChatGPT",
+        2
+      ],
+      [
+        "mcp",
+        2
+      ],
+      [
+        "hermesagent",
+        2
+      ],
+      [
+        "DevsForHire",
+        2
+      ],
+      [
+        "StableDiffusion",
+        2
+      ],
+      [
+        "learnmachinelearning",
+        2
+      ]
+    ]
+  },
+  {
+    "name": "search-2-type-link",
+    "attempt": 1,
+    "url": "https://www.reddit.com/search.rss?q=lockfile%20OR%20%22works%20on%20my%20machine%22&sort=new&limit=100&type=link",
+    "sentAt": "2026-10-03T20:32:01.510Z",
+    "ms": 1821,
+    "status": 200,
+    "headers": {
+      "cache-control": "private, max-age=3600",
+      "content-type": "application/atom+xml; charset=UTF-8",
+      "date": "Sat, 03 Oct 2026 20:32:03 GMT",
+      "x-ratelimit-remaining": "0.0",
+      "x-ratelimit-reset": "57",
+      "x-ratelimit-used": "1"
+    },
+    "bytes": 513330,
+    "entries": 100,
+    "kinds": {
+      "t3_": 100
+    },
+    "ageHours": {
+      "newest": 0.3,
+      "median": 242.05,
+      "oldest": 485.54
+    },
+    "emptyBodies": 0,
+    "subs": [
+      [
+        "SecOpsDaily",
+        5
+      ],
+      [
+        "codex",
+        3
+      ],
+      [
+        "ChatGPT",
+        2
+      ],
+      [
+        "mcp",
+        2
+      ],
+      [
+        "hermesagent",
+        2
+      ],
+      [
+        "DevsForHire",
+        2
+      ],
+      [
+        "StableDiffusion",
+        2
+      ],
+      [
+        "learnmachinelearning",
+        2
+      ]
+    ]
+  },
+  {
+    "name": "node-comments-100",
+    "attempt": 1,
+    "url": "https://www.reddit.com/r/node/comments/.rss?limit=100",
+    "sentAt": "2026-10-03T20:33:01.509Z",
+    "ms": 5122,
+    "status": 200,
+    "headers": {
+      "cache-control": "private, max-age=3600",
+      "content-type": "application/atom+xml; charset=UTF-8",
+      "date": "Sat, 03 Oct 2026 20:33:02 GMT",
+      "x-ratelimit-remaining": "0.0",
+      "x-ratelimit-reset": "57",
+      "x-ratelimit-used": "1"
+    },
+    "bytes": 77264,
+    "entries": 100,
+    "kinds": {
+      "t1_": 100
+    },
+    "ageHours": {
+      "newest": 0.03,
+      "median": 70.16,
+      "oldest": 131.74
+    },
+    "emptyBodies": 0,
+    "subs": [
+      [
+        "node",
+        100
+      ]
+    ]
+  },
+  {
+    "name": "node-new-100",
+    "attempt": 1,
+    "url": "https://www.reddit.com/r/node/new/.rss?limit=100",
+    "sentAt": "2026-10-03T20:34:01.502Z",
+    "ms": 1924,
+    "status": 200,
+    "headers": {
+      "cache-control": "private, max-age=3600",
+      "content-type": "application/atom+xml; charset=UTF-8",
+      "date": "Sat, 03 Oct 2026 20:34:03 GMT",
+      "x-ratelimit-remaining": "0.0",
+      "x-ratelimit-reset": "57",
+      "x-ratelimit-used": "1"
+    },
+    "bytes": 214179,
+    "entries": 100,
+    "kinds": {
+      "t3_": 100
+    },
+    "ageHours": {
+      "newest": 21.69,
+      "median": 502.09,
+      "oldest": 891.12
+    },
+    "emptyBodies": 0,
+    "subs": [
+      [
+        "node",
+        100
+      ]
+    ]
+  },
+  {
+    "name": "or-8",
+    "attempt": 1,
+    "url": "https://www.reddit.com/search.rss?q=%22works%20on%20my%20machine%22%20OR%20%22fails%20on%20CI%22%20OR%20%22npm%20ci%22%20OR%20lockfile%20OR%20%22package-lock.json%22%20OR%20%22clean%20install%22%20OR%20%22fresh%20clone%22%20OR%20kubernetes&sort=new&limit=100",
+    "sentAt": "2026-10-03T20:35:01.509Z",
+    "ms": 2040,
+    "status": 200,
+    "headers": {
+      "cache-control": "private, max-age=3600",
+      "content-type": "application/atom+xml; charset=UTF-8",
+      "date": "Sat, 03 Oct 2026 20:35:03 GMT",
+      "x-ratelimit-remaining": "0.0",
+      "x-ratelimit-reset": "57",
+      "x-ratelimit-used": "1"
+    },
+    "bytes": 393919,
+    "entries": 97,
+    "kinds": {
+      "t3_": 97
+    },
+    "ageHours": {
+      "newest": 0.28,
+      "median": 9.99,
+      "oldest": 22.27
+    },
+    "emptyBodies": 0,
+    "subs": [
+      [
+        "cscareeradvice",
+        2
+      ],
+      [
+        "GeForceExperience",
+        2
+      ],
+      [
+        "KibernetinisSaugumas",
+        2
+      ],
+      [
+        "kubernetes",
+        2
+      ],
+      [
+        "BestGitHubRepos",
+        2
+      ],
+      [
+        "aws",
+        2
+      ],
+      [
+        "servicenow",
+        1
+      ]
+    ],
+    "sentinelHits": 49,
+    "posts": 97,
+    "phrasePositionsMatched": [
+      1,
+      3,
+      4,
+      6,
+      8
+    ],
+    "queryLength": 135
+  },
+  {
+    "name": "or-20",
+    "attempt": 1,
+    "url": "https://www.reddit.com/search.rss?q=%22works%20on%20my%20machine%22%20OR%20%22fails%20on%20CI%22%20OR%20%22npm%20ci%22%20OR%20lockfile%20OR%20%22package-lock.json%22%20OR%20%22clean%20install%22%20OR%20%22fresh%20clone%22%20OR%20%22node_modules%22%20OR%20postinstall%20OR%20%22peer%20dependency%22%20OR%20ERESOLVE%20OR%20%22engines%20field%22%20OR%20%22nvm%20use%22%20OR%20%22.nvmrc%22%20OR%20%22case%20sensitive%20import%22%20OR%20%22github%20actions%20failing%22%20OR%20%22builds%20locally%22%20OR%20%22MCP%20server%22%20OR%20%22model%20context%20protocol%22%20OR%20kubernetes&sort=new&limit=100",
+    "sentAt": "2026-10-03T20:36:01.511Z",
+    "ms": 2073,
+    "status": 200,
+    "headers": {
+      "cache-control": "private, max-age=3600",
+      "content-type": "application/atom+xml; charset=UTF-8",
+      "date": "Sat, 03 Oct 2026 20:36:03 GMT",
+      "x-ratelimit-remaining": "0.0",
+      "x-ratelimit-reset": "57",
+      "x-ratelimit-used": "1"
+    },
+    "bytes": 370568,
+    "entries": 100,
+    "kinds": {
+      "t5_": 3,
+      "t3_": 97
+    },
+    "ageHours": {
+      "newest": 0.3,
+      "median": 3.87,
+      "oldest": 114290.8
+    },
+    "emptyBodies": 0,
+    "subs": [
+      [
+        "mcp",
+        8
+      ],
+      [
+        "undefined",
+        3
+      ],
+      [
+        "selfhosted",
+        2
+      ],
+      [
+        "aigamedev",
+        2
+      ],
+      [
+        "GeForceExperience",
+        2
+      ],
+      [
+        "SideProject",
+        2
+      ]
+    ],
+    "sentinelHits": 14,
+    "posts": 97,
+    "phrasePositionsMatched": [
+      3,
+      4,
+      6,
+      18,
+      19,
+      20
+    ],
+    "queryLength": 364
+  },
+  {
+    "name": "or-41",
+    "attempt": 1,
+    "url": "https://www.reddit.com/search.rss?q=%22works%20on%20my%20machine%22%20OR%20%22fails%20on%20CI%22%20OR%20%22npm%20ci%22%20OR%20lockfile%20OR%20%22package-lock.json%22%20OR%20%22clean%20install%22%20OR%20%22fresh%20clone%22%20OR%20%22node_modules%22%20OR%20postinstall%20OR%20%22peer%20dependency%22%20OR%20ERESOLVE%20OR%20%22engines%20field%22%20OR%20%22nvm%20use%22%20OR%20%22.nvmrc%22%20OR%20%22case%20sensitive%20import%22%20OR%20%22github%20actions%20failing%22%20OR%20%22builds%20locally%22%20OR%20%22MCP%20server%22%20OR%20%22model%20context%20protocol%22%20OR%20%22editor%20settings%20sync%22%20OR%20%22pnpm%20lockfile%22%20OR%20%22yarn.lock%22%20OR%20corepack%20OR%20%22native%20module%22%20OR%20node-gyp%20OR%20prebuild%20OR%20%22docker%20build%20fails%22%20OR%20%22environment%20variable%20missing%22%20OR%20dotenv%20OR%20%22path%20alias%22%20OR%20%22tsconfig%20paths%22%20OR%20%22ESM%20CommonJS%22%20OR%20ERR_REQUIRE_ESM%20OR%20%22module%20not%20found%22%20OR%20%22cannot%20find%20module%22%20OR%20%22works%20locally%22%20OR%20%22deploy%20fails%22%20OR%20%22vercel%20build%20failed%22%20OR%20%22netlify%20build%22%20OR%20%22monorepo%20workspace%22%20OR%20kubernetes&sort=new&limit=100",
+    "sentAt": "2026-10-03T20:37:01.502Z",
+    "ms": 521,
+    "status": 200,
+    "headers": {
+      "cache-control": "private, max-age=3600",
+      "content-type": "application/atom+xml; charset=UTF-8",
+      "date": "Sat, 03 Oct 2026 20:37:02 GMT",
+      "x-ratelimit-remaining": "0.0",
+      "x-ratelimit-reset": "57",
+      "x-ratelimit-used": "1"
+    },
+    "bytes": 3486,
+    "entries": 0,
+    "kinds": {},
+    "ageHours": null,
+    "emptyBodies": 0,
+    "subs": [],
+    "sentinelHits": 0,
+    "posts": 0,
+    "phrasePositionsMatched": [],
+    "queryLength": 772
+  },
+  {
+    "name": "javascript-comments-default",
+    "attempt": 1,
+    "url": "https://www.reddit.com/r/javascript/comments/.rss",
+    "sentAt": "2026-10-03T20:38:01.514Z",
+    "ms": 687,
+    "status": 200,
+    "headers": {
+      "cache-control": "private, max-age=3600",
+      "content-type": "application/atom+xml; charset=UTF-8",
+      "date": "Sat, 03 Oct 2026 20:38:02 GMT",
+      "x-ratelimit-remaining": "0.0",
+      "x-ratelimit-reset": "57",
+      "x-ratelimit-used": "1"
+    },
+    "bytes": 34032,
+    "entries": 25,
+    "kinds": {
+      "t1_": 25
+    },
+    "ageHours": {
+      "newest": 1.63,
+      "median": 8.2,
+      "oldest": 19.55
+    },
+    "emptyBodies": 0,
+    "subs": [
+      [
+        "javascript",
+        25
+      ]
+    ]
+  }
+]

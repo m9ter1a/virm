@@ -43,7 +43,17 @@ virm init
 virm start
 ```
 
-This starts collecting and opens the inbox at `http://127.0.0.1:4545`. Leave it running. `virm doctor` checks everything if something looks off.
+This starts collecting and opens the inbox in your browser. Leave the terminal window open: virm runs as long as it does. `virm doctor` checks everything if something looks off.
+
+### Where the inbox is
+
+While virm is running, the inbox is at **http://127.0.0.1:4545** (`http://localhost:4545` works too). It is served by virm on your own computer, not from the internet, so:
+
+- closing the browser tab does not stop virm: open the address again, or bookmark it;
+- the page answers only while `virm start` is running. If the browser says it cannot connect, start virm;
+- nobody else can open it, from another computer or from the internet.
+
+The port can be changed with `"port"` in `config.json`.
 
 ## Trackers
 

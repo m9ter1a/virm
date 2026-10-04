@@ -1,0 +1,84 @@
+{
+  "recordedAt": "2026-10-04T11:19:45.730Z",
+  "ms": 1015,
+  "request": {
+    "state": {
+      "subreddit": "r/node",
+      "kind": "post",
+      "title": "Build passes locally but fails on GitHub Actions",
+      "text": "npm ci says package-lock.json is out of sync with package.json. It works on my machine. Any idea how to fix?",
+      "matched_search": "\"works on my machine\""
+    },
+    "questions": {
+      "group": {
+        "type": "choice",
+        "instructions": "A person watches Reddit with this goal: \"I maintain freshclone, a CLI that checks whether a repo builds on someone else's clean machine. I want to help people whose project works locally but fails for others, in CI or after a fresh clone.\". Which group does this post belong to for them?",
+        "criteria": {
+          "urgent": "The author directly asks for help, advice or a tool recommendation on this topic, or reports a problem squarely in it, and a knowledgeable reply would clearly help them.",
+          "worth": "A discussion on this topic where a knowledgeable person has something useful to add, but nobody is waiting for an answer.",
+          "fyi": "On topic, but a reply would add nothing: news, a showcase, a question that is already well answered, or a passing mention.",
+          "noise": "Unrelated to the topic: the keyword in another meaning, a meme or joke, an off-topic rant, spam, self-promotion or NSFW."
+        }
+      },
+      "on_topic": {
+        "type": "noul",
+        "instructions": "Is the post actually about what this person watches for: \"I maintain freshclone, a CLI that checks whether a repo builds on someone else's clean machine. I want to help people whose project works locally but fails for others, in CI or after a fresh clone.\"? Answer no if it only shares a keyword with it, used in another meaning."
+      },
+      "spam": {
+        "type": "noul",
+        "instructions": "Is the post spam, an advertisement, or written by a bot?"
+      },
+      "asks_help": {
+        "type": "noul",
+        "instructions": "Is the author asking for help, advice or a tool recommendation?"
+      },
+      "has_problem": {
+        "type": "noul",
+        "instructions": "Does the author describe a problem, error or failure they have right now?"
+      }
+    }
+  },
+  "headers": {
+    "content-type": "application/json",
+    "x-clerk-auth-message": "Invalid JWT form. A JWT consists of three parts separated by dots. (reason=token-invalid, token-carrier=header)",
+    "x-clerk-auth-reason": "token-invalid",
+    "x-clerk-auth-status": "signed-out",
+    "x-middleware-rewrite": "/decisions/v1/systemone"
+  },
+  "response": {
+    "model": "d1:free",
+    "answers": {
+      "group": {
+        "type": "choice",
+        "choice": "urgent",
+        "probabilities": {
+          "urgent": 0.9890244716055391,
+          "worth": 0.004875483141505314,
+          "fyi": 0.003797030088455772,
+          "noise": 0.0023030151644997986
+        },
+        "confidence": 0.9853659621407188
+      },
+      "on_topic": {
+        "type": "noul",
+        "noul": 0.9820137884587394
+      },
+      "spam": {
+        "type": "noul",
+        "noul": 0.0006263341394548992
+      },
+      "asks_help": {
+        "type": "noul",
+        "noul": 0.9648551576415562
+      },
+      "has_problem": {
+        "type": "noul",
+        "noul": 0.9924227587321393
+      }
+    },
+    "usage": {
+      "input_tokens": 956,
+      "output_tokens": 0
+    }
+  }
+}

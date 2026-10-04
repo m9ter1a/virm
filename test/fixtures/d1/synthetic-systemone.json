@@ -1,0 +1,16 @@
+{
+  "model": "d1:free",
+  "answers": {
+    "group": {
+      "type": "choice",
+      "choice": "urgent",
+      "confidence": 0.81,
+      "probabilities": { "urgent": 0.81, "worth": 0.12, "fyi": 0.05, "noise": 0.02 }
+    },
+    "on_topic": { "type": "noul", "noul": 0.93 },
+    "spam": { "type": "noul", "noul": 0.02 },
+    "asks_help": { "type": "noul", "noul": 0.97 },
+    "has_problem": { "type": "noul", "noul": 0.88 }
+  },
+  "usage": { "input_tokens": 412, "output_tokens": 0 }
+}

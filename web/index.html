@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>virm</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/app.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="/" aria-label="virm inbox"><img src="/favicon.svg" alt="" width="22" height="22"><span>virm</span></a>
+    <nav class="tabs" role="tablist" aria-label="Groups">
+      <button class="tab" role="tab" data-group="urgent" aria-selected="false"><span class="dot"></span><span class="tab-name">Urgent</span><span class="count"></span></button>
+      <button class="tab" role="tab" data-group="worth" aria-selected="false"><span class="dot"></span><span class="tab-name">Worth a look</span><span class="count"></span></button>
+      <button class="tab" role="tab" data-group="fyi" aria-selected="false"><span class="dot"></span><span class="tab-name">FYI</span><span class="count"></span></button>
+      <button class="tab" role="tab" data-group="noise" aria-selected="false"><span class="dot"></span><span class="tab-name">Noise</span><span class="count"></span></button>
+      <button class="tab" role="tab" data-group="pending" aria-selected="false" hidden><span class="dot"></span><span class="tab-name">Waiting</span><span class="count"></span></button>
+    </nav>
+    <div class="tools">
+      <input id="q" type="search" placeholder="Search" aria-label="Search posts" autocomplete="off" spellcheck="false">
+      <select id="tracker" aria-label="Tracker"><option value="">All trackers</option></select>
+      <select id="view" aria-label="Which posts">
+        <option value="open">To do</option>
+        <option value="done">Done</option>
+        <option value="all">All</option>
+      </select>
+      <button id="trackers-btn" class="text-btn" type="button" aria-pressed="false">Trackers</button>
+      <button id="help-btn" class="icon-btn" type="button" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">?</button>
+    </div>
+  </header>
+
+  <div id="banner" class="banner" role="status" hidden></div>
+
+  <main class="layout">
+    <section class="list-pane" aria-label="Posts">
+      <button id="fresh" class="fresh" type="button" hidden></button>
+      <ol id="list" class="list" role="listbox" aria-label="Posts"></ol>
+      <div id="empty" class="empty" hidden><p class="empty-title"></p><p class="empty-sub"></p></div>
+      <button id="more" class="more" type="button" hidden>Load more</button>
+    </section>
+    <section id="detail" class="detail-pane" aria-label="Selected post"></section>
+  </main>
+
+  <section id="trackers-page" class="page" aria-label="Trackers" hidden>
+    <div class="page-inner">
+      <div class="page-head">
+        <div>
+          <h1>Trackers</h1>
+          <p class="hint">A tracker is one thing you want to hear about on Reddit: what to search for, and why. The why is what the model reads.</p>
+        </div>
+        <button id="add-tracker" class="btn primary" type="button">Add tracker</button>
+      </div>
+      <div id="trackers-body"></div>
+    </div>
+  </section>
+
+  <footer class="status">
+    <span id="status-poll" class="status-item"></span>
+    <span id="status-model" class="status-item"></span>
+    <span class="status-spacer"></span>
+    <button id="feeds-btn" class="link-btn" type="button">Feeds</button>
+    <button id="help-btn-2" class="link-btn" type="button">Shortcuts <kbd>?</kbd></button>
+  </footer>
+
+  <dialog id="help" aria-labelledby="help-title">
+    <div class="dialog-head"><h2 id="help-title">Keyboard shortcuts</h2><button class="icon-btn" type="button" data-close aria-label="Close">×</button></div>
+    <div class="keys">
+      <section>
+        <h3>Move around</h3>
+        <dl>
+          <dt><kbd>J</kbd> <kbd>↓</kbd></dt><dd>Next post</dd>
+          <dt><kbd>K</kbd> <kbd>↑</kbd></dt><dd>Previous post</dd>
+          <dt><kbd>[</kbd> <kbd>]</kbd></dt><dd>Previous / next group</dd>
+          <dt><kbd>/</kbd></dt><dd>Search</dd>
+          <dt><kbd>.</kbd></dt><dd>Show new posts</dd>
+        </dl>
+      </section>
+      <section>
+        <h3>Act</h3>
+        <dl>
+          <dt><kbd>O</kbd> <kbd>Enter</kbd></dt><dd>Open the thread on Reddit</dd>
+          <dt><kbd>R</kbd></dt><dd>Replied: done with it</dd>
+          <dt><kbd>S</kbd></dt><dd>Skip: done, no reply</dd>
+          <dt><kbd>U</kbd></dt><dd>Undo</dd>
+        </dl>
+      </section>
+      <section>
+        <h3>Correct the model</h3>
+        <dl>
+          <dt><kbd>1</kbd></dt><dd>This is Urgent</dd>
+          <dt><kbd>2</kbd></dt><dd>This is Worth a look</dd>
+          <dt><kbd>3</kbd></dt><dd>This is FYI</dd>
+          <dt><kbd>4</kbd></dt><dd>This is Noise</dd>
+        </dl>
+        <p class="hint">Pressing the group a post is already in confirms it. Every choice is saved, and once you have labelled enough posts of a tracker, its Urgent threshold follows your labels.</p>
+        <label class="setting"><input type="checkbox" id="ask-moves"> Ask before moving a post to another group</label>
+      </section>
+    </div>
+  </dialog>
+
+  <dialog id="feeds" aria-labelledby="feeds-title">
+    <div class="dialog-head"><h2 id="feeds-title">Feeds</h2><button class="icon-btn" type="button" data-close aria-label="Close">×</button></div>
+    <p class="hint">Reddit allows one request per minute from your IP, so virm polls one feed per minute, the most overdue first.</p>
+    <div id="feeds-body"></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

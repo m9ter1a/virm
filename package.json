@@ -1,0 +1,64 @@
+{
+  "name": "virm",
+  "version": "0.1.0",
+  "description": "Watch Reddit for what you care about. A decision model sorts every post into Urgent, Worth a look, FYI or Noise, and only Urgent interrupts you.",
+  "type": "module",
+  "bin": {
+    "virm": "dist/bin.js"
+  },
+  "files": [
+    "dist",
+    "web"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "reddit",
+    "monitoring",
+    "alerts",
+    "notifications",
+    "inbox",
+    "rss",
+    "classification",
+    "decision-model",
+    "liquid-ai",
+    "d1"
+  ],
+  "license": "MIT",
+  "author": "m9ter1a (https://github.com/m9ter1a)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m9ter1a/virm.git"
+  },
+  "homepage": "https://github.com/m9ter1a/virm#readme",
+  "bugs": {
+    "url": "https://github.com/m9ter1a/virm/issues"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "dependencies": {
+    "@typesafe-ai/sdk": "^0.6.0",
+    "env-paths": "^4.0.0",
+    "fast-xml-parser": "^5.11.2",
+    "nodemailer": "^10.0.14",
+    "toasted-notifier": "^10.1.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/nodemailer": "^8.0.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}

@@ -1,0 +1,3 @@
+# A tool about cross-platform correctness should not ship line endings that
+# vary by who cloned it.
+* text=auto eol=lf

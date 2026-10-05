@@ -63,6 +63,15 @@ export function nextSlot(now: number): number {
   return Math.floor(now / MINUTE) * MINUTE + MINUTE + SLOT_OFFSET_MS;
 }
 
+/**
+ * When a feed is due again. Counted from the start of the minute, not from the
+ * answer: that arrives a second or two after the slot, so counted from it, a
+ * 5 minute interval just missed the slot 5 minutes later and became 6.
+ */
+function dueAfter(now: number, seconds: number): number {
+  return Math.floor(now / MINUTE) * MINUTE + seconds * 1000;
+}
+
 /** The most overdue feed, or undefined if none is due. Ties go to search, which is the most time-sensitive. */
 export function pickNext(states: FeedState[], now: number): FeedState | undefined {
   return states
@@ -94,7 +103,7 @@ export function afterSuccess(s: FeedState, o: FetchOutcome, now: number): FeedSt
   return {
     ...s,
     intervalS: interval,
-    nextDue: now + interval * 1000,
+    nextDue: dueAfter(now, interval),
     lastFetch: now,
     lastStatus: 200,
     lastCount: o.count,
@@ -109,5 +118,5 @@ export function afterSuccess(s: FeedState, o: FetchOutcome, now: number): FeedSt
 export function afterFailure(s: FeedState, status: number | null, error: string, now: number): FeedState {
   const failures = s.failures + 1;
   const waitS = status === 429 ? 2 * 60 : Math.min(60 * 60, 5 * 60 * 2 ** (failures - 1));
-  return { ...s, nextDue: now + waitS * 1000, lastFetch: now, lastStatus: status, failures, lastError: error };
+  return { ...s, nextDue: dueAfter(now, waitS), lastFetch: now, lastStatus: status, failures, lastError: error };
 }

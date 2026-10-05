@@ -182,6 +182,7 @@ On a server, the inbox still listens on 127.0.0.1 only: reach it through an SSH 
 - **Everything stays on your computer**: posts, labels, settings. Nothing is sent anywhere except Reddit (to read feeds) and Liquid AI (each post's title and text, and your tracker's `about`, to classify it).
 - **One Reddit request per minute.** That is Reddit's limit for RSS per IP. With many trackers each feed is read less often; the Feeds dialog in the inbox shows how often.
 - **RSS is not an official API.** Reddit could change or close it. virm reads it politely: one request a minute, a real User-Agent, no proxies, no tricks. If it closes, virm will move to another legal path, not around a block.
+- **Search is not instant.** Reddit's search shows new posts in batches, about every 10 to 20 minutes (measured in October 2026). A post usually reaches virm 5 to 20 minutes after it is posted, several fetches in a row can bring nothing new, and notifications come in the same bursts.
 - **Comments** are found only in the subreddits you list: Reddit's search does not search comments.
 - **d1 is free during Liquid's experimental phase.** Each post takes about 2,700 input tokens. At $0.04 per million (the price listed for d1 on Vercel AI Gateway), a busy tracker of about 500 posts a day would cost around $20 a year; a quiet one, cents.
 - virm never posts, comments or votes on Reddit. You reply yourself.

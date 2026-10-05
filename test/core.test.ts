@@ -315,15 +315,24 @@ describe("budget", () => {
     expect(s.lastError).toMatch(/empty search feed/);
   });
 
+  it("keeps a 5 minute feed at 5 minutes, though Reddit answers a moment after the slot", () => {
+    // Found in a live log: a 5 minute feed was fetched at 18:03:03, 18:09:03, 18:15:03.
+    const slot = nextSlot(t0);
+    const s = afterSuccess(newFeedState("a", "search"), { count: 100, limit: 100, oldestCreated: t0 - 2 * HOUR, fresh: 0 }, slot + 2_000);
+    expect(pickNext([s], slot + 4 * 60_000)).toBeUndefined();
+    expect(pickNext([s], slot + 5 * 60_000)).toBe(s);
+  });
+
   it("retries soon after a 429 and backs off exponentially on other failures", () => {
+    const minute = Date.UTC(2026, 9, 3, 12, 0, 0); // the minute t0 falls in
     const s = newFeedState("a", "search");
-    expect(afterFailure(s, 429, "HTTP 429", t0).nextDue).toBe(t0 + 2 * 60_000);
+    expect(afterFailure(s, 429, "HTTP 429", t0).nextDue).toBe(minute + 2 * 60_000);
     const f1 = afterFailure(s, 403, "HTTP 403", t0);
     const f2 = afterFailure(f1, 403, "HTTP 403", t0);
-    expect(f1.nextDue).toBe(t0 + 5 * 60_000);
-    expect(f2.nextDue).toBe(t0 + 10 * 60_000);
+    expect(f1.nextDue).toBe(minute + 5 * 60_000);
+    expect(f2.nextDue).toBe(minute + 10 * 60_000);
     let f = f2;
     for (let i = 0; i < 10; i++) f = afterFailure(f, 500, "HTTP 500", t0);
-    expect(f.nextDue).toBe(t0 + 60 * 60_000);
+    expect(f.nextDue).toBe(minute + 60 * 60_000);
   });
 });

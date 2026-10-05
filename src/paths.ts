@@ -25,15 +25,33 @@ export function getPaths(): Paths {
 }
 
 /**
+ * VIRM_HOME picks the data folder, and with it the .env that gets read, so it
+ * cannot come from a .env: by then the folder is chosen, and a value set late
+ * would send later commands to a different folder than the one already open.
+ */
+const NOT_FROM_FILES = new Set(["VIRM_HOME"]);
+
+/**
  * Secrets live in .env files: the one in the data directory, then one in the
  * current directory. A variable already set in the environment always wins.
  */
-export function loadEnvFiles(files: string[]): string[] {
+export function loadEnvFiles(
+  files: string[],
+  o: { env?: Record<string, string | undefined>; warn?: (message: string) => void } = {},
+): string[] {
+  const env = o.env ?? process.env;
+  const warn = o.warn ?? ((m: string) => console.warn(m));
   const loaded: string[] = [];
   for (const file of files) {
     if (!existsSync(file)) continue;
     const vars = parseEnv(readFileSync(file, "utf8"));
-    for (const [k, v] of Object.entries(vars)) if (process.env[k] === undefined) process.env[k] = v;
+    for (const [k, v] of Object.entries(vars)) {
+      if (NOT_FROM_FILES.has(k)) {
+        warn(`virm: ${k} in ${file} is ignored: it decides where virm looks for that file. Set it in your environment instead.`);
+        continue;
+      }
+      if (env[k] === undefined) env[k] = v;
+    }
     loaded.push(file);
   }
   return loaded;

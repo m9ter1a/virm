@@ -55,6 +55,10 @@ While virm is running, the inbox is at **http://127.0.0.1:4545** (`http://localh
 
 The port can be changed with `"port"` in `config.json`.
 
+### Where virm keeps its files
+
+Settings (`config.json`), trackers (`trackers.json`), secrets (`.env`), the database and the log live in your user's data folder; `virm paths` shows where. To keep them somewhere else, set the environment variable `VIRM_HOME` to that folder, in your shell or your system settings. Not in `.env`: virm reads `.env` from that very folder, so a `VIRM_HOME` written there is ignored, with a warning.
+
 ## Trackers
 
 A tracker is one thing you want to hear about. Pick a goal, and the meaning of the four groups follows from it:

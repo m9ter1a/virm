@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { afterFailure, afterSuccess, INTERVALS, newFeedState, nextSlot, pickNext } from "../src/budget.js";
 import { HARD_URGENT_MAX_AGE_HOURS, SettingsSchema, TrackerSchema, TrackersFileSchema } from "../src/config.js";
 import { EXAMPLE_TRACKERS } from "../src/examples.js";
+import { parseSubreddits } from "../src/init.js";
 import { linkInfo } from "../src/links.js";
 import { effectiveThresholds, LEARN, learnUrgent, type Sample } from "../src/thresholds.js";
 import { compileQuery, matchedQuery, queryMatches } from "../src/match.js";
@@ -57,6 +58,17 @@ describe("config", () => {
   it("ships example trackers that are valid, one per non-custom template", () => {
     const parsed = TrackersFileSchema.parse(EXAMPLE_TRACKERS);
     expect(new Set(parsed.map((t) => t.template))).toEqual(new Set(["help", "news", "mentions", "competitors"]));
+  });
+});
+
+describe("init answers", () => {
+  it("takes subreddit names, but not a yes or a no meant for another question", () => {
+    expect(parseSubreddits("node, r/javascript /r/rust")).toEqual({ names: ["node", "javascript", "rust"] });
+    expect(parseSubreddits("")).toEqual({ names: [] });
+    // Found in a real setup: "yes" became r/yes.
+    expect(parseSubreddits("yes")).toHaveProperty("problem");
+    expect(parseSubreddits("No")).toHaveProperty("problem");
+    expect(parseSubreddits("node, да")).toEqual({ problem: "Not subreddit names: да" });
   });
 });
 

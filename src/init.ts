@@ -3,7 +3,7 @@
 // as an empty inbox later.
 import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createInterface } from "node:readline/promises";
-import { loadTrackers, resolveTracker, SettingsSchema, TrackerSchema, type TrackerInput } from "./config.js";
+import { loadTrackers, resolveTracker, SettingsSchema, stripSubreddit, SUBREDDIT_NAME, TrackerSchema, type TrackerInput } from "./config.js";
 import { LIQUID_KEY_URL, createLiquidDecider } from "./deciders/liquid.js";
 import { EXAMPLE_TRACKERS } from "./examples.js";
 import { getPaths } from "./paths.js";
@@ -23,6 +23,21 @@ export function setEnvLine(path: string, key: string, value: string): void {
   try {
     chmodSync(path, 0o600);
   } catch {}
+}
+
+const YES_OR_NO = /^(y|yes|yeah|yep|sure|ok|okay|n|no|nope|none|skip)$/i;
+
+/**
+ * The answer to "which subreddits?": names, or nothing. r/yes exists, but a
+ * lone "yes" here answers the question someone expected, and taken literally
+ * it had a real setup reading the comments of r/yes.
+ */
+export function parseSubreddits(answer: string): { names: string[] } | { problem: string } {
+  const names = answer.split(/[,\s]+/).map(stripSubreddit).filter(Boolean);
+  if (names.length === 1 && YES_OR_NO.test(names[0])) return { problem: `"${names[0]}" reads as an answer, not a subreddit` };
+  const bad = names.filter((n) => !SUBREDDIT_NAME.test(n));
+  if (bad.length) return { problem: `Not subreddit names: ${bad.join(", ")}` };
+  return { names };
 }
 
 /** Read a line without echoing it: the key goes to a file, not to the terminal's scrollback. */
@@ -136,13 +151,22 @@ export async function init(o: { examples: boolean }): Promise<number> {
         if (!q) break;
         queries.push(q);
       }
-      const subs = await ask("   Also read the comments of these subreddits (optional, comma separated): ");
+      console.log(`   Reddit's search finds posts, not comments. To catch comments too, name subreddits where they are.`);
+      let commentSubreddits: string[];
+      for (;;) {
+        const parsed = parseSubreddits(await ask("   Subreddits, e.g. node, javascript (Enter to skip): "));
+        if ("names" in parsed) {
+          commentSubreddits = parsed.names;
+          break;
+        }
+        console.log(`   ${parsed.problem}. Type subreddit names, or press Enter to skip.`);
+      }
       const tracker: TrackerInput = {
         name,
         template,
         about,
         queries,
-        commentSubreddits: subs ? subs.split(/[,\s]+/).filter(Boolean) : undefined,
+        commentSubreddits: commentSubreddits.length ? commentSubreddits : undefined,
       };
       const checked = TrackerSchema.safeParse(tracker);
       if (!checked.success) {

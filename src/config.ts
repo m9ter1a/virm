@@ -11,10 +11,12 @@ export const MAX_QUERY_LENGTH = 512;
 export const HARD_URGENT_MAX_AGE_HOURS = 48;
 
 const stripUser = (s: string) => s.replace(/^\/?u\//i, "");
+export const stripSubreddit = (s: string) => s.trim().replace(/^\/?r\//i, "");
+export const SUBREDDIT_NAME = /^[A-Za-z0-9_]{2,21}$/;
 
 const subreddit = z.preprocess(
-  (v) => (typeof v === "string" ? v.trim().replace(/^\/?r\//i, "") : v),
-  z.string().regex(/^[A-Za-z0-9_]{2,21}$/, "not a subreddit name"),
+  (v) => (typeof v === "string" ? stripSubreddit(v) : v),
+  z.string().regex(SUBREDDIT_NAME, "not a subreddit name"),
 );
 
 const probability = z.number().min(0).max(1);

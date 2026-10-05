@@ -7,8 +7,10 @@ virm searches Reddit for your topics, and a decision model sorts every post it f
 ```bash
 npm install -g @m9ter1a/virm
 virm init
-virm start
+virm autostart
 ```
+
+That is all: virm runs in the background, and starts again whenever you log in. The inbox is at http://127.0.0.1:4545 (`virm open`). To run it only while a terminal window is open, use `virm start` instead of `virm autostart`.
 
 ![The virm inbox: a list of posts on the left, the selected post and why it was sorted that way on the right](docs/inbox.jpg)
 
@@ -31,7 +33,7 @@ You need [Node.js](https://nodejs.org) 22.13 or newer.
 npm install -g @m9ter1a/virm
 ```
 
-This gives you the `virm` command. To try it without installing, put `npx @m9ter1a/virm` wherever this README says `virm`.
+This gives you the `virm` command. To try it without installing, put `npx @m9ter1a/virm` wherever this README says `virm`, and use `virm start`: autostart needs virm installed.
 
 ```bash
 virm init
@@ -40,10 +42,12 @@ virm init
 `init` asks for your Liquid key (input hidden), checks it with one real call, and saves it. To get a key: sign up at [console.liquid.ai](https://console.liquid.ai), open **API keys**, create one. Then it helps you write your first tracker.
 
 ```bash
-virm start
+virm autostart
 ```
 
-This starts collecting and opens the inbox in your browser. Leave the terminal window open: virm runs as long as it does. To have it run in the background instead, with no window and from every login, use `virm autostart` ([more](#keep-it-running)). `virm doctor` checks everything if something looks off.
+This starts virm in the background, with no window, and from now on it also starts by itself whenever you log in ([more](#keep-it-running)). The inbox is at http://127.0.0.1:4545; `virm open` opens it.
+
+To run virm only while a terminal window is open, use `virm start` instead: it opens the inbox in your browser, and closing the window stops virm. `virm doctor` checks everything if something looks off.
 
 ### Where the inbox is
 

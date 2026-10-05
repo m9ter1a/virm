@@ -4,6 +4,7 @@ import { loadSettings, loadTrackers, type Settings, type Tracker } from "./confi
 import { Store } from "./db.js";
 import { LIQUID_KEY_URL, createLiquidDecider } from "./deciders/liquid.js";
 import { buildNotifiers } from "./notify/channels.js";
+import { autostartState } from "./autostart.js";
 import { createDesktopNotifier } from "./notifiers/desktop.js";
 import { openUrl } from "./web/open.js";
 import type { Notice } from "./notify/format.js";
@@ -115,6 +116,12 @@ export async function doctor(o: { notify: boolean; log?: (s: string) => void }):
         : { ok: "warn", detail: "shown, not clicked in 20 s. If you saw it, desktop notifications work." };
     });
   }
+  await check("autostart", () => {
+    const state = autostartState(paths.dir);
+    return state.on
+      ? { ok: true, detail: `on, through ${state.where}${running ? "" : "; not running now (it starts at the next login)"}` }
+      : { ok: "warn", detail: 'off: virm runs only while "virm start" does. "virm autostart" keeps it running.' };
+  });
   log(failed ? "\nSomething needs fixing: see ✗ above." : "\nAll good.");
   return !failed;
 }

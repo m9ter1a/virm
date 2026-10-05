@@ -1,6 +1,6 @@
 {
   "name": "@m9ter1a/virm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Watch Reddit for what you care about. A decision model sorts every post into Urgent, Worth a look, FYI or Noise, and only Urgent interrupts you.",
   "type": "module",
   "bin": {

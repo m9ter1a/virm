@@ -43,14 +43,14 @@ virm init
 virm start
 ```
 
-This starts collecting and opens the inbox in your browser. Leave the terminal window open: virm runs as long as it does. `virm doctor` checks everything if something looks off.
+This starts collecting and opens the inbox in your browser. Leave the terminal window open: virm runs as long as it does. To have it run in the background instead, with no window and from every login, use `virm autostart` ([more](#keep-it-running)). `virm doctor` checks everything if something looks off.
 
 ### Where the inbox is
 
 While virm is running, the inbox is at **http://127.0.0.1:4545** (`http://localhost:4545` works too). It is served by virm on your own computer, not from the internet, so:
 
-- closing the browser tab does not stop virm: open the address again, or bookmark it;
-- the page answers only while `virm start` is running. If the browser says it cannot connect, start virm;
+- closing the browser tab does not stop virm: open the address again, run `virm open`, or bookmark it;
+- the page answers only while virm is running. If the browser says it cannot connect, start virm (or let it start by itself: see [Keep it running](#keep-it-running));
 - nobody else can open it, from another computer or from the internet.
 
 The port can be changed with `"port"` in `config.json`.
@@ -133,11 +133,28 @@ The daily digest lists unanswered Urgent posts, counts per group and tracker, an
 
 ## Keep it running
 
-virm works only while your computer is on and `virm start` is running. To start it with your computer:
+virm works only while your computer is on and virm is running. To have it running all the time, without a terminal window:
 
-- **Windows**: `schtasks /create /tn virm /tr "virm start --no-open" /sc onlogon`
-- **macOS**: a launchd agent in `~/Library/LaunchAgents/` running `virm start --no-open` with `RunAtLoad`.
-- **Linux**: a systemd user unit with `ExecStart=virm start --no-open` (the full path from `which virm`), then `systemctl --user enable --now virm`.
+```bash
+virm autostart
+```
+
+This starts virm in the background now, and again every time you log in. No window, no admin rights:
+
+- **Windows**: an entry in your user's startup list (the registry `Run` key) starts it through `wscript`, hidden;
+- **macOS**: a LaunchAgent in `~/Library/LaunchAgents/`, restarted if it crashes;
+- **Linux**: a systemd user service, or a desktop autostart entry where there is no systemd.
+
+Then:
+
+| | |
+|---|---|
+| `virm open` | open the inbox in your browser |
+| `virm stop` | stop the background virm (it comes back at the next login) |
+| `virm autostart status` | is it set up, is it running |
+| `virm autostart off` | stop starting it at login |
+
+What it prints goes to `virm.log` in the data folder (`virm paths` shows where). Autostart needs virm installed with `npm install -g`, not run through `npx`, whose copies get cleaned up.
 
 On a server, the inbox still listens on 127.0.0.1 only: reach it through an SSH tunnel, and use Slack, Discord or email instead of desktop notifications.
 
@@ -148,6 +165,8 @@ On a server, the inbox still listens on 127.0.0.1 only: reach it through an SSH 
 | `virm init` | set up the key and a first tracker |
 | `virm start` | collect, sort, notify, serve the inbox |
 | `virm inbox` | only the inbox, no collecting |
+| `virm autostart [off\|status]` | run in the background, from every login |
+| `virm open`, `virm stop` | open the inbox; stop the background virm |
 | `virm doctor [--notify]` | check the setup; send test notifications |
 | `virm list`, `virm feeds` | the inbox and feed status in the terminal |
 | `virm try <tracker> "<text>"` | see how a tracker would sort a piece of text |

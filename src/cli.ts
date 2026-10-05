@@ -1,18 +1,20 @@
 #!/usr/bin/env node
 import { mkdirSync } from "node:fs";
-import { ConfigError, formatIssues, type Tracker } from "./config.js";
+import { ConfigError, formatIssues, loadSettings, loadTrackers, type Tracker } from "./config.js";
 import type { ItemRow } from "./db.js";
 import { rerouteAll, type StoredAnswers } from "./decide.js";
 import { Live, logLine, openRuntime, run, type Runtime } from "./main.js";
 import { getPaths, loadEnvFiles, VERSION } from "./paths.js";
 import { doctor } from "./doctor.js";
+import { autostartState, disableAutostart, enableAutostart, isTransient, launchSpec, startInBackground } from "./autostart.js";
+import { isRunning, logToFile, stopBackground, waitUntil, writePid } from "./background.js";
 import { init } from "./init.js";
 import { buildQuestions, buildState, toAnswers } from "./questions.js";
 import { route } from "./route.js";
 import { TEMPLATES, TEMPLATE_IDS } from "./templates.js";
 import { buildFeeds } from "./trackers.js";
 import { GROUPS, GROUP_LABEL, type GroupId, type Item } from "./types.js";
-import { openBrowser } from "./web/open.js";
+import { openBrowser, openUrl } from "./web/open.js";
 import { startInbox } from "./web/server.js";
 import { buildNotifiers } from "./notify/channels.js";
 
@@ -32,6 +34,9 @@ Usage:
   virm reroute                  re-apply thresholds to stored answers (no model calls)
   virm templates                show the tracker templates and their group definitions
   virm doctor [--notify]        check the setup; --notify sends a test to every notification channel
+  virm autostart [off|status]   run in the background, starting by itself at every login
+  virm open                     open the inbox of the running virm in your browser
+  virm stop                     stop virm running in the background
   virm paths                    show where virm keeps its files
 
 Data directory: ${getPaths().dir} (override with VIRM_HOME)
@@ -92,6 +97,69 @@ function findTracker(rt: Runtime, name: string | undefined): Tracker {
   return t;
 }
 
+/** autostart, stop, open: about the running virm, so they work without loading trackers or the database. */
+async function background(cmd: string, rest: string[], flags: Record<string, string | true>): Promise<number> {
+  const p = getPaths();
+  mkdirSync(p.dir, { recursive: true });
+  const port = loadSettings(p.config).port;
+  const url = `http://127.0.0.1:${port}`;
+
+  if (cmd === "open") {
+    if (!(await isRunning(port))) {
+      console.log(`virm is not running. Start it with "virm start", or have it start with your computer: "virm autostart".`);
+      return 1;
+    }
+    openUrl(url);
+    console.log(`Opening ${url}`);
+    return 0;
+  }
+
+  if (cmd === "stop") {
+    const r = await stopBackground(p.dir, port);
+    if (r === "stopped") console.log("Stopped virm.");
+    else if (r === "not-running") console.log("virm is not running.");
+    else console.log(`Something answers on ${url}, but it was not started as virm here. Stop it where it runs (Ctrl+C in its window).`);
+    return r === "in-terminal" ? 1 : 0;
+  }
+
+  const sub = rest[0] ?? (flags.off === true ? "off" : "on");
+  if (sub === "status") {
+    const state = autostartState(p.dir);
+    console.log(`Autostart: ${state.on ? `on, through ${state.where}` : "off"}.`);
+    console.log((await isRunning(port)) ? `virm is running: ${url}` : "virm is not running now.");
+    return 0;
+  }
+  if (sub === "off") {
+    const state = disableAutostart(p.dir);
+    console.log(`Autostart is off: removed from ${state.where}.`);
+    if (await isRunning(port)) console.log(`virm keeps running until you log out or run "virm stop".`);
+    return 0;
+  }
+  if (sub !== "on") throw new ConfigError("usage: virm autostart [on|off|status]");
+
+  const spec = launchSpec(p.dir);
+  if (isTransient(spec.bin))
+    throw new ConfigError(
+      "autostart needs virm installed, not run through npx (npx clears its copies). Install it with: npm install -g @m9ter1a/virm, then run: virm autostart",
+    );
+  if (loadTrackers(p.trackers).length === 0) throw new ConfigError(`no trackers yet. Run "virm init" first, then "virm autostart".`);
+  const state = enableAutostart(spec);
+  console.log(`Autostart is on: virm starts in the background whenever you log in, through ${state.where}.`);
+  if (await isRunning(port)) {
+    console.log(`virm is already running (${url}). It goes on as it is; from the next login it starts by itself.`);
+    return 0;
+  }
+  if (!state.startedNow) startInBackground(spec);
+  if (!(await waitUntil(() => isRunning(port), 15_000))) {
+    console.log(`It did not answer within 15 seconds. The log may say why: ${spec.logFile}`);
+    return 1;
+  }
+  console.log(`virm is running in the background now. Inbox: ${url}`);
+  console.log(`Open it any time with "virm open". Log: ${spec.logFile}`);
+  console.log(`Stop it with "virm stop"; turn autostart off with "virm autostart off".`);
+  return 0;
+}
+
 async function main(argv: string[]): Promise<number> {
   const [cmd, ...args] = argv;
   const { flags, rest } = parseFlags(args);
@@ -119,6 +187,8 @@ async function main(argv: string[]): Promise<number> {
     return 0;
   }
 
+  if (cmd === "autostart" || cmd === "stop" || cmd === "open") return background(cmd, rest, flags);
+
   if (cmd === "init" || cmd === "doctor") {
     const p = getPaths();
     mkdirSync(p.dir, { recursive: true });
@@ -134,9 +204,11 @@ async function main(argv: string[]): Promise<number> {
       case "inbox": {
         const collect = cmd === "start";
         if (collect && rt.trackers.length === 0) throw new ConfigError(`no trackers in ${rt.paths.trackers}. Run "virm init" first.`);
+        if (typeof flags["log-file"] === "string") logToFile(flags["log-file"]);
         const live = new Live(rt, logLine);
         const port = flags.port ? Number(flags.port) : rt.settings.port;
         const inbox = await startInbox({ store: rt.store, live, settings: rt.settings, port });
+        writePid(rt.paths.dir, inbox.port);
         const { notifiers, status } = buildNotifiers(rt.settings);
         if (collect) {
           const feeds = buildFeeds(rt.trackers);
@@ -147,10 +219,11 @@ async function main(argv: string[]): Promise<number> {
         console.log(`Inbox: ${inbox.url}   (Ctrl+C to stop)`);
         if (flags["no-open"] !== true && process.stdout.isTTY) openBrowser(inbox.url);
         const ac = new AbortController();
-        process.once("SIGINT", () => {
-          console.log("\nstopping…");
-          ac.abort();
-        });
+        for (const signal of ["SIGINT", "SIGTERM"] as const)
+          process.once(signal, () => {
+            console.log("\nstopping…");
+            ac.abort();
+          });
         if (collect) await run(rt, live, { signal: ac.signal, notifiers, inboxUrl: inbox.url });
         else await new Promise((r) => ac.signal.addEventListener("abort", r, { once: true }));
         await inbox.close();

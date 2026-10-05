@@ -163,7 +163,8 @@ export async function init(o: { examples: boolean }): Promise<number> {
     rl.close();
   }
 
-  console.log(`\nDone. Start it with:\n\n  virm start\n\n(or npx @m9ter1a/virm start, if you did not install it)\n`);
+  console.log(`\nDone. Start it with:\n\n  virm start\n\n(or npx @m9ter1a/virm start, if you did not install it)`);
+  console.log(`To keep it running in the background, from every login and without a window: virm autostart\n`);
   console.log(`The inbox opens in your browser. Urgent posts also show up as desktop notifications;`);
   console.log(`Slack, Discord, email or a webhook: see the README. "virm doctor" checks everything.`);
   return 0;
